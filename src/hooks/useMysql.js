@@ -5,6 +5,9 @@ export const useMysql = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [almuerzos, setAlmuerzos] = useState([]);
+  const [todasGuarniciones, setTodasGuarniciones] = useState([]);
+  const [todasEnsaladas, setTodasEnsaladas] = useState([]);
+  const [todasSalsas, setTodasSalsas] = useState([]);
   const urlBase = 'http://localhost/api-cafeteria/';
 
   const login = async (username, password) => {
@@ -54,6 +57,67 @@ export const useMysql = () => {
     setIsLoading(false);
   };
 
+  const getTodasGuarniciones = async() => {
+    setIsLoading(true);
+    const url = urlBase + 'todas_guarniciones.php';
+    console.log(url)
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+      });
+
+      if (!response.ok) {
+        throw new Error('Error en la solicitud');
+      }
+      const data = await response.json();
+      setTodasGuarniciones(data);
+    } catch (error) {
+      console.error('Error al realizar la solicitud: ', error);
+      setError('Error en la solicitud');
+    }
+    setIsLoading(false);
+  };
+  const getTodasEnsaladas = async() => {
+    setIsLoading(true);
+    const url = urlBase + 'todas_ensaladas.php';
+    console.log(url)
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+      });
+
+      if (!response.ok) {
+        throw new Error('Error en la solicitud');
+      }
+      const data = await response.json();
+      setTodasEnsaladas(data);
+    } catch (error) {
+      console.error('Error al realizar la solicitud: ', error);
+      setError('Error en la solicitud');
+    }
+    setIsLoading(false);
+  };
+  const getTodasSalsas = async() => {
+    setIsLoading(true);
+    const url = urlBase + 'todas_salsas.php';
+    console.log(url)
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+      });
+
+      if (!response.ok) {
+        throw new Error('Error en la solicitud');
+      }
+      const data = await response.json();
+      setTodasSalsas(data);
+    } catch (error) {
+      console.error('Error al realizar la solicitud: ', error);
+      setError('Error en la solicitud');
+    }
+    setIsLoading(false);
+  };
+
   const updateAlmuerzo = async (almuerzo) => {
     console.log("updating almuerzo" + almuerzo.id);
     //TODO
@@ -69,5 +133,7 @@ export const useMysql = () => {
     //TODO
   }
 
-  return { isAuthenticated, isLoading, error, login, almuerzos, obtenerAlmuerzos, updateAlmuerzo, toggleDisponible, createAlmuerzo };
+  return { isAuthenticated, isLoading, error, login, almuerzos, todasGuarniciones, todasEnsaladas, todasSalsas, 
+    obtenerAlmuerzos, getTodasGuarniciones, getTodasEnsaladas, getTodasSalsas, updateAlmuerzo, toggleDisponible, 
+    createAlmuerzo };
 };

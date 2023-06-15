@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage';
 import LayoutPage from './pages/LayoutPage';
 import HomePage from './pages/HomePage';
 import { AlmuerzoNuevoPage } from './pages/AlmuerzoNuevoPage';
+import Acompanhamientos from './pages/Acompanhamientos';
 
 const router = createBrowserRouter([
   {
@@ -25,14 +26,14 @@ const router = createBrowserRouter([
         path: "almuerzonuevo",
         element: <AlmuerzoNuevoPage />,
       },
-  //     {
-  //       path: "products",
-  //       element: <ProductsPage />,
-  //     },
-  //     {
-  //       path: "add-client/:clientId?",
-  //       element: <AddClientPage />,
-  //     },
+      {
+        path: "acompanhamientos",
+        element: <Acompanhamientos />,
+      },
+      // {
+      //   path: "ensaladas",
+      //   element: <AddClientPage />,
+      // },
     ],
   },
 ]);

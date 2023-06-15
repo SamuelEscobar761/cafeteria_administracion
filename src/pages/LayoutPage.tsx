@@ -31,20 +31,21 @@ const LayoutPage = () => {
           </Link>
           <Link
             className={`${
+              pathname === "/home/acompanhamientos" ? "font-bold" : ""
+            } block text-center`}
+            to={`acompanhamientos`}
+          >
+            Acompañamientos
+          </Link>
+          <Link
+            className={`${
               pathname === "/home/add-client" ? "font-bold" : ""
             } block text-center`}
             to={`add-client`}
           >
             Agregar Clientes
           </Link>
-          <Link
-            className={`${
-              pathname === "/home/products" ? "font-bold" : ""
-            } block text-center`}
-            to={`products`}
-          >
-            Productos
-          </Link>
+          
         </div>
         <main className="md:w-5/6 p-10 overflow-auto">
           <Outlet />
