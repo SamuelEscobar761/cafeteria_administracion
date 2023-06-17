@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMysql } from '../hooks/useMysql';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,6 +28,9 @@ export const AlmuerzoNuevoPage = () => {
         numGuarniciones,
         numSalsas,
     };
+    useEffect(() => {
+      
+    }, []);
 
     createAlmuerzo(nuevoAlmuerzo)
       .then(() => {

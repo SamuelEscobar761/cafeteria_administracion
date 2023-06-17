@@ -70,6 +70,7 @@ export const useMysql = () => {
         throw new Error('Error en la solicitud');
       }
       const data = await response.json();
+      console.log(data);
       setTodasGuarniciones(data);
     } catch (error) {
       console.error('Error al realizar la solicitud: ', error);
