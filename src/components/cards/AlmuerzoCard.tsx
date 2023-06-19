@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import Almuerzo from '../../types/almuerzo';
 
 const AlmuerzoCard = ({ almuerzo, onUpdate, onToggleDisponible }) => {
   const {
     id,
     nombre,
+    disponible,
     para_llevar,
     descripcion,
     precio,
@@ -11,8 +13,7 @@ const AlmuerzoCard = ({ almuerzo, onUpdate, onToggleDisponible }) => {
     guarniciones,
     ensaladas,
     salsas,
-    disponible,
-  } = almuerzo;
+  }: Almuerzo = almuerzo;
 
   const [isEditing, setIsEditing] = useState(false);
   const [editedNombre, setEditedNombre] = useState(nombre);
@@ -59,7 +60,7 @@ const AlmuerzoCard = ({ almuerzo, onUpdate, onToggleDisponible }) => {
   };
 
   const handleToggleDisponible = () => {
-    onToggleDisponible(almuerzo.id);
+    onToggleDisponible(id);
   };
 
   const handleAgregarImagen = () => {
@@ -129,11 +130,6 @@ const AlmuerzoCard = ({ almuerzo, onUpdate, onToggleDisponible }) => {
             <p className="text-gray-700 font-semibold">
               Precio: {editedPrecio} Bs
             </p>
-            {!isEditing && (
-              <p className="text-gray-500">
-                {editedParaLlevar ? 'Para llevar' : 'Para comer aquí'}
-              </p>
-            )}
           </>
         )}
         <div>
@@ -145,6 +141,7 @@ const AlmuerzoCard = ({ almuerzo, onUpdate, onToggleDisponible }) => {
               Guardar
             </button>
           ) : (
+            
             <>
               {!isEditing && (
                 <button

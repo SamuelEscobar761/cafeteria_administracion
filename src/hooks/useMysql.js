@@ -124,15 +124,68 @@ export const useMysql = () => {
     //TODO
   };
 
-  const toggleDisponible = async (idAlmuerzo) => {
-    console.log("updating disponible" + idAlmuerzo);
-    //TODO
-  };
+  const toggleDisponible = async (id) => {
+  try {
+    setIsLoading(true);
+    const url = urlBase + 'almuerzo_toggle_disponible.php';
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id })
+    });
 
-  const createAlmuerzo = async(almuerzo) => {
-    console.log("Creating nuevo almuerzo" + almuerzo.nombre);
-    //TODO
+    if (response.ok) {
+      const data = await response.text();
+      setIsLoading(false);
+      const updatedAlmuerzos = almuerzos.map((almuerzo) => {
+        if (almuerzo.id === id) {
+          return {
+            ...almuerzo,
+            disponible: !almuerzo.disponible,
+          };
+        }
+        return almuerzo;
+      });
+    
+      setAlmuerzos(updatedAlmuerzos);
+    } else {
+      throw new Error('Error en la solicitud');
+    }
+  } catch (error) {
+    console.error('Error al realizar la solicitud: ', error);
+    setError('Error en la solicitud');
+    setIsLoading(false);
   }
+};
+
+
+  const createAlmuerzo = async (almuerzo) => {
+    try {
+      setIsLoading(true);
+      const url = urlBase + 'create_almuerzo.php';
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(almuerzo)
+      });
+  
+      if (response.ok) {
+        const data = await response.text();
+        setIsLoading(false);
+      } else {
+        throw new Error('Error en la solicitud');
+      }
+    } catch (error) {
+      console.error('Error al realizar la solicitud: ', error);
+      setError('Error en la solicitud');
+      setIsLoading(false);
+    }
+  }
+  
 
   return { isAuthenticated, isLoading, error, login, almuerzos, todasGuarniciones, todasEnsaladas, todasSalsas, 
     obtenerAlmuerzos, getTodasGuarniciones, getTodasEnsaladas, getTodasSalsas, updateAlmuerzo, toggleDisponible, 

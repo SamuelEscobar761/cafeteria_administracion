@@ -23,19 +23,16 @@ export const AlmuerzoNuevoPage = () => {
         paraLlevar,
         descripcion,
         precio,
-        imagen: imagenFile !== null ? imagenFile : undefined,
+        imagen: imagenFile || null,
         numEnsaladas,
         numGuarniciones,
         numSalsas,
     };
-    useEffect(() => {
-      
-    }, []);
 
     createAlmuerzo(nuevoAlmuerzo)
       .then(() => {
         // El almuerzo se creó exitosamente
-        navigate(`/home/almuerzos`);
+        // navigate(`/home/almuerzos`);
       })
       .catch((error: any) => {
         // Ocurrió un error al crear el almuerzo
@@ -108,6 +105,22 @@ export const AlmuerzoNuevoPage = () => {
                 accept=".jpg,.png,.jpeg"
                 onChange={(e) => {
                     const file = e.target.files?.[0];
+                    setImagenFile(file);
+                }}
+                className="border border-gray-300 rounded-md px-3 py-2 w-full"
+            />
+
+        </div>
+        <div className="mb-4">
+            <label htmlFor="imagen" className="text-lg">
+                QR:
+            </label>
+            <input
+                type="file"
+                id="qr"
+                accept=".jpg,.png,.jpeg"
+                onChange={(e) => {
+                    const file = e.target.files?.[1];
                     setImagenFile(file);
                 }}
                 className="border border-gray-300 rounded-md px-3 py-2 w-full"
