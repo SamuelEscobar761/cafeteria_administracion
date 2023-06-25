@@ -9,6 +9,7 @@ import HomePage from './pages/HomePage';
 import { AlmuerzoNuevoPage } from './pages/AlmuerzoNuevoPage';
 import Acompanhamientos from './pages/Acompanhamientos';
 import { AgendarAlmuerzosPage } from './pages/AgendarAlmuerzosPage';
+import ReservasPage from './pages/ReservasPage';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "agenda",
         element: <AgendarAlmuerzosPage />,
+      },
+      {
+        path: "reservas",
+        element: <ReservasPage />,
       },
     ],
   },

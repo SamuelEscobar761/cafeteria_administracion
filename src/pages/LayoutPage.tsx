@@ -45,6 +45,14 @@ const LayoutPage = () => {
           >
             Agenda
           </Link>
+          <Link
+            className={`${
+              pathname === "/home/reservas" ? "font-bold" : ""
+            } block text-center`}
+            to={`reservas`}
+          >
+            Reservas
+          </Link>
           
         </div>
         <main className="md:w-5/6 p-10 overflow-auto">

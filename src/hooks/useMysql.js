@@ -9,6 +9,7 @@ export const useMysql = () => {
   const [todasEnsaladas, setTodasEnsaladas] = useState([]);
   const [todasSalsas, setTodasSalsas] = useState([]);
   const [almuerzosAgendados, setAlmuerzosAgendados] = useState([]);
+  const [reservas, setReservas] = useState([]);
   const urlBase = 'http://localhost/api-cafeteria/';
 
   const login = async (username, password) => {
@@ -259,9 +260,55 @@ export const useMysql = () => {
       setIsLoading(false);
     }
   }
+
+  const obtenerReservas = async () => {
+    setIsLoading(true);
+    const url = urlBase + 'reservas.php';
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+      });
+    if (response.ok) {
+      const data = await response.json();
+      setReservas(data);
+      console.log(data);
+      setIsLoading(false);
+    } else {
+      throw new Error('Error en la solicitud');
+    }
+    } catch (error) {
+      console.error('Error al realizar la solicitud: ', error);
+      setError('Error en la solicitud');
+      setIsLoading(false);
+    }
+  }
+
+  const entregarAlmuerzo = async (id) => {
+    setIsLoading(true);
+    const url = urlBase + 'entregar_almuerzo.php';
+    const formData = new FormData();
+    formData.append('id', id);
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData,
+      });
+    if (response.ok) {
+      const data = await response.text();
+      console.log(data);
+      setIsLoading(false);
+    } else {
+      throw new Error('Error en la solicitud');
+    }
+    } catch (error) {
+      console.error('Error al realizar la solicitud: ', error);
+      setError('Error en la solicitud');
+      setIsLoading(false);
+    }
+  }
   
 
-  return { isAuthenticated, isLoading, error, almuerzosAgendados, almuerzos, todasGuarniciones, todasEnsaladas, todasSalsas,
-    login, obtenerAlmuerzos, getTodasGuarniciones, getTodasEnsaladas, getTodasSalsas, updateAlmuerzo, toggleDisponible, 
-    createAlmuerzo, getAlmuerzosAgendados, agendarAlmuerzo, desagendarAlmuerzo };
+  return { isAuthenticated, isLoading, error, almuerzosAgendados, almuerzos, todasGuarniciones, todasEnsaladas, todasSalsas, reservas,
+    login, obtenerAlmuerzos, getTodasGuarniciones, getTodasEnsaladas, getTodasSalsas, updateAlmuerzo, toggleDisponible, obtenerReservas,
+    createAlmuerzo, getAlmuerzosAgendados, agendarAlmuerzo, desagendarAlmuerzo, entregarAlmuerzo };
 };
