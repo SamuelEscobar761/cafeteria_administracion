@@ -8,6 +8,7 @@ import LayoutPage from './pages/LayoutPage';
 import HomePage from './pages/HomePage';
 import { AlmuerzoNuevoPage } from './pages/AlmuerzoNuevoPage';
 import Acompanhamientos from './pages/Acompanhamientos';
+import { AgendarAlmuerzosPage } from './pages/AgendarAlmuerzosPage';
 
 const router = createBrowserRouter([
   {
@@ -30,10 +31,10 @@ const router = createBrowserRouter([
         path: "acompanhamientos",
         element: <Acompanhamientos />,
       },
-      // {
-      //   path: "ensaladas",
-      //   element: <AddClientPage />,
-      // },
+      {
+        path: "agenda",
+        element: <AgendarAlmuerzosPage />,
+      },
     ],
   },
 ]);

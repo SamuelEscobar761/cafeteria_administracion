@@ -32,7 +32,7 @@ export const AlmuerzoNuevoPage = () => {
     createAlmuerzo(nuevoAlmuerzo)
       .then(() => {
         // El almuerzo se creó exitosamente
-        // navigate(`/home/almuerzos`);
+        navigate(`/home/almuerzos`);
       })
       .catch((error: any) => {
         // Ocurrió un error al crear el almuerzo

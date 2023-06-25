@@ -8,6 +8,7 @@ export const useMysql = () => {
   const [todasGuarniciones, setTodasGuarniciones] = useState([]);
   const [todasEnsaladas, setTodasEnsaladas] = useState([]);
   const [todasSalsas, setTodasSalsas] = useState([]);
+  const [almuerzosAgendados, setAlmuerzosAgendados] = useState([]);
   const urlBase = 'http://localhost/api-cafeteria/';
 
   const login = async (username, password) => {
@@ -174,7 +175,6 @@ export const useMysql = () => {
       });
   
       if (response.ok) {
-        const data = await response.text();
         setIsLoading(false);
       } else {
         throw new Error('Error en la solicitud');
@@ -185,9 +185,83 @@ export const useMysql = () => {
       setIsLoading(false);
     }
   }
+
+  const agendarAlmuerzo = async (id, date) => {
+    setIsLoading(true);
+    const url = urlBase + 'agendar_almuerzo.php';
+    const formData = new FormData();
+    formData.append('date', date);
+    formData.append('id', id);
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData,
+      });
+    if (response.ok) {
+      setIsLoading(false);
+    } else {
+      throw new Error('Error en la solicitud');
+    }
+    } catch (error) {
+      console.error('Error al realizar la solicitud: ', error);
+      setError('Error en la solicitud');
+      setIsLoading(false);
+    }
+  };
+
+  const desagendarAlmuerzo = async (id, date) => {
+    setIsLoading(true);
+    const url = urlBase + 'desagendar_almuerzo.php';
+    const formData = new FormData();
+    formData.append('date', date);
+    formData.append('id', id);
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData,
+      });
+    if (response.ok) {
+      const data = await response.text();
+      console.log(data);
+      setIsLoading(false);
+    } else {
+      throw new Error('Error en la solicitud');
+    }
+    } catch (error) {
+      console.error('Error al realizar la solicitud: ', error);
+      setError('Error en la solicitud');
+      setIsLoading(false);
+    }
+  };
+
+
+  const getAlmuerzosAgendados = async (date) => {
+    setIsLoading(true);
+    const url = urlBase + 'almuerzos_agendados.php';
+    const formData = new FormData();
+    formData.append('date', date);
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData,
+      });
+    if (response.ok) {
+      const data = await response.json();
+      setAlmuerzosAgendados(data);
+      console.log(data);
+      setIsLoading(false);
+    } else {
+      throw new Error('Error en la solicitud');
+    }
+    } catch (error) {
+      console.error('Error al realizar la solicitud: ', error);
+      setError('Error en la solicitud');
+      setIsLoading(false);
+    }
+  }
   
 
-  return { isAuthenticated, isLoading, error, login, almuerzos, todasGuarniciones, todasEnsaladas, todasSalsas, 
-    obtenerAlmuerzos, getTodasGuarniciones, getTodasEnsaladas, getTodasSalsas, updateAlmuerzo, toggleDisponible, 
-    createAlmuerzo };
+  return { isAuthenticated, isLoading, error, almuerzosAgendados, almuerzos, todasGuarniciones, todasEnsaladas, todasSalsas,
+    login, obtenerAlmuerzos, getTodasGuarniciones, getTodasEnsaladas, getTodasSalsas, updateAlmuerzo, toggleDisponible, 
+    createAlmuerzo, getAlmuerzosAgendados, agendarAlmuerzo, desagendarAlmuerzo };
 };

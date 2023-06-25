@@ -39,11 +39,11 @@ const LayoutPage = () => {
           </Link>
           <Link
             className={`${
-              pathname === "/home/add-client" ? "font-bold" : ""
+              pathname === "/home/agenda" ? "font-bold" : ""
             } block text-center`}
-            to={`add-client`}
+            to={`agenda`}
           >
-            Agregar Clientes
+            Agenda
           </Link>
           
         </div>
