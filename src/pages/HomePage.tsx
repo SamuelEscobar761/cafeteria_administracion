@@ -1,16 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AlmuerzoCard from '../components/cards/AlmuerzoCard';
 import { useMysql } from '../hooks/useMysql';
+import { BuscadorAlmuerzos } from '../components/BuscadorAlmuerzos';
 
 const HomePage = () => {
   const { isLoading, error, almuerzos, obtenerAlmuerzos, updateAlmuerzo, toggleDisponible } = useMysql();
+  const [almuerzosVisibles, setAlmuerzosVisibles] = useState(almuerzos);
 
   useEffect(() => {
     obtenerAlmuerzos();
-  }, []); // El array vacío asegura que useEffect solo se ejecute una vez al montar el componente
+  }, []);
+
+  useEffect(() => {
+    setAlmuerzosVisibles(almuerzos);
+}, [almuerzos]);
 
   return (
     <div>
+      <BuscadorAlmuerzos almuerzos={almuerzos} setAlmuerzosVisibles={setAlmuerzosVisibles}/>
       <h1>Lista de almuerzos</h1>
       {isLoading ? (
         <p>Cargando...</p>
@@ -18,13 +25,14 @@ const HomePage = () => {
         <p>Error: {error}</p>
       ) : (
         <div>
-          {almuerzos.map((almuerzo) => (
+          {almuerzosVisibles.map((almuerzo) => (
             <AlmuerzoCard
             key={almuerzo.id}
             almuerzo={almuerzo}
             onUpdate={updateAlmuerzo}
             onToggleDisponible={toggleDisponible}
           />
+            
           ))}
         </div>
       )}

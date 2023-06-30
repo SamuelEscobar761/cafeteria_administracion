@@ -39,13 +39,15 @@ export const AgendarAlmuerzosPage = () => {
             <h1>Almuerzos:</h1>
             <div>
             {almuerzosVisibles.map((almuerzo) => (
-            <AlmuerzoAgendadoCard
+            almuerzo.disponible && (
+                <AlmuerzoAgendadoCard
                 key={almuerzo.id}
                 id={almuerzo.id}
                 nombreAlmuerzo={almuerzo.nombre}
                 almuerzosAgendados={almuerzosAgendados}
                 date={formatedDate}
-            />
+                />
+            )
             ))}
             </div>
 

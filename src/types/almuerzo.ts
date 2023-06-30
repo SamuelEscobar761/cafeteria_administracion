@@ -5,9 +5,9 @@ interface Almuerzo {
   descripcion: string;
   precio: number;
   imagen: string;
-  guarniciones: number
-  ensaladas: number;
-  salsas: number;
+  numGuarniciones: number
+  numEnsaladas: number;
+  numSalsas: number;
   disponible: boolean;
 }
 export default Almuerzo;

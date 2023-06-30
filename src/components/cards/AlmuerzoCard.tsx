@@ -10,9 +10,9 @@ const AlmuerzoCard = ({ almuerzo, onUpdate, onToggleDisponible }) => {
     descripcion,
     precio,
     imagen,
-    guarniciones,
-    ensaladas,
-    salsas,
+    numGuarniciones,
+    numEnsaladas,
+    numSalsas,
   }: Almuerzo = almuerzo;
 
   const [isEditing, setIsEditing] = useState(false);
@@ -20,10 +20,9 @@ const AlmuerzoCard = ({ almuerzo, onUpdate, onToggleDisponible }) => {
   const [editedDescripcion, setEditedDescripcion] = useState(descripcion);
   const [editedPrecio, setEditedPrecio] = useState(precio);
   const [editedParaLlevar, setEditedParaLlevar] = useState(para_llevar);
-  const [editedGuarniciones, setEditedGuarniciones] = useState(guarniciones);
-  const [editedEnsaladas, setEditedEnsaladas] = useState(ensaladas);
-  const [editedSalsas, setEditedSalsas] = useState(salsas);
-
+  const [editedGuarniciones, setEditedGuarniciones] = useState(numGuarniciones);
+  const [editedEnsaladas, setEditedEnsaladas] = useState(numEnsaladas);
+  const [editedSalsas, setEditedSalsas] = useState(numSalsas);
   const [imagenExistente, setImagenExistente] = useState(false);
 
   useEffect(() => {
@@ -141,7 +140,6 @@ const AlmuerzoCard = ({ almuerzo, onUpdate, onToggleDisponible }) => {
               Guardar
             </button>
           ) : (
-            
             <>
               {!isEditing && (
                 <button
@@ -180,7 +178,7 @@ const AlmuerzoCard = ({ almuerzo, onUpdate, onToggleDisponible }) => {
             className="mb-2"
           />
         ) : (
-          <p>{guarniciones}</p>
+          <p>{editedGuarniciones}</p>
         )}
         <h3 className="text-lg font-semibold mb-2">Ensaladas</h3>
         {isEditing ? (
@@ -190,7 +188,7 @@ const AlmuerzoCard = ({ almuerzo, onUpdate, onToggleDisponible }) => {
             className="mb-2"
           />
         ) : (
-          <p>{ensaladas}</p>
+          <p>{numEnsaladas}</p>
         )}
         <h3 className="text-lg font-semibold mb-2">Salsas</h3>
         {isEditing ? (
@@ -200,7 +198,7 @@ const AlmuerzoCard = ({ almuerzo, onUpdate, onToggleDisponible }) => {
             className="mb-2"
           />
         ) : (
-          <p>{salsas}</p>
+          <p>{numSalsas}</p>
         )}
       </div>
     </div>

@@ -13,8 +13,6 @@ export const useMysql = () => {
   const urlBase = 'http://localhost/api-cafeteria/';
 
   const login = async (username, password) => {
-    console.log(username);
-    console.log(password);
     setIsLoading(true);
     const url = urlBase + 'administradores.php';
     const formData = new FormData();
@@ -41,7 +39,6 @@ export const useMysql = () => {
   const obtenerAlmuerzos = async () => {
     setIsLoading(true);
     const url = urlBase + 'almuerzos_admin.php';
-    console.log(url)
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -62,7 +59,6 @@ export const useMysql = () => {
   const getTodasGuarniciones = async() => {
     setIsLoading(true);
     const url = urlBase + 'todas_guarniciones.php';
-    console.log(url)
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -72,7 +68,6 @@ export const useMysql = () => {
         throw new Error('Error en la solicitud');
       }
       const data = await response.json();
-      console.log(data);
       setTodasGuarniciones(data);
     } catch (error) {
       console.error('Error al realizar la solicitud: ', error);
@@ -83,7 +78,6 @@ export const useMysql = () => {
   const getTodasEnsaladas = async() => {
     setIsLoading(true);
     const url = urlBase + 'todas_ensaladas.php';
-    console.log(url)
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -103,7 +97,6 @@ export const useMysql = () => {
   const getTodasSalsas = async() => {
     setIsLoading(true);
     const url = urlBase + 'todas_salsas.php';
-    console.log(url)
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -122,8 +115,34 @@ export const useMysql = () => {
   };
 
   const updateAlmuerzo = async (almuerzo) => {
-    console.log("updating almuerzo" + almuerzo.id);
-    //TODO
+    setIsLoading(true);
+    const url = urlBase + 'updateAlmuerzo.php';
+    const formData = new FormData();
+    formData.append('id', almuerzo.id);
+    formData.append('nombre', almuerzo.nombre);
+    formData.append('para_llevar', almuerzo.para_llevar);
+    formData.append('descripcion', almuerzo.descripcion);
+    formData.append('precio', almuerzo.precio);
+    formData.append('guarniciones', almuerzo.guarniciones);
+    formData.append('ensaladas', almuerzo.ensaladas);
+    formData.append('salsas', almuerzo.salsas);
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData,
+      });
+    if (response.ok) {
+      const data = await response.text();
+      setIsLoading(false);
+      obtenerAlmuerzos();
+    } else {
+      throw new Error('Error en la solicitud');
+    }
+    } catch (error) {
+      console.error('Error al realizar la solicitud: ', error);
+      setError('Error en la solicitud');
+      setIsLoading(false);
+    }
   };
 
   const toggleDisponible = async (id) => {
@@ -199,6 +218,8 @@ export const useMysql = () => {
         body: formData,
       });
     if (response.ok) {
+      const data = await response.text();
+      console.log(data);
       setIsLoading(false);
     } else {
       throw new Error('Error en la solicitud');
@@ -223,7 +244,6 @@ export const useMysql = () => {
       });
     if (response.ok) {
       const data = await response.text();
-      console.log(data);
       setIsLoading(false);
     } else {
       throw new Error('Error en la solicitud');
@@ -249,7 +269,6 @@ export const useMysql = () => {
     if (response.ok) {
       const data = await response.json();
       setAlmuerzosAgendados(data);
-      console.log(data);
       setIsLoading(false);
     } else {
       throw new Error('Error en la solicitud');
@@ -271,7 +290,6 @@ export const useMysql = () => {
     if (response.ok) {
       const data = await response.json();
       setReservas(data);
-      console.log(data);
       setIsLoading(false);
     } else {
       throw new Error('Error en la solicitud');
@@ -295,7 +313,6 @@ export const useMysql = () => {
       });
     if (response.ok) {
       const data = await response.text();
-      console.log(data);
       setIsLoading(false);
     } else {
       throw new Error('Error en la solicitud');
@@ -306,9 +323,93 @@ export const useMysql = () => {
       setIsLoading(false);
     }
   }
+
+  const agregarAcompanhamiento = async(nombre, tipo) => {
+    setIsLoading(true);
+    const url = urlBase + 'agregarAcompanhamiento.php';
+    const formData = new FormData();
+    formData.append('nombre', nombre);
+    formData.append('tabla', tipo);
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData,
+      });
+    if (response.ok) {
+      const data = await response.text();
+      getTodasEnsaladas();
+      getTodasGuarniciones();
+      getTodasSalsas();
+      //Esta parte del codigo tiene que mejorar, se tiene que agregar la guarnicion, ensalada o salsa respectivamente.
+      setIsLoading(false);
+    } else {
+      throw new Error('Error en la solicitud');
+    }
+    } catch (error) {
+      console.error('Error al realizar la solicitud: ', error);
+      setError('Error en la solicitud');
+      setIsLoading(false);
+    }
+  }
+
+  const agregarQr = async (qr, nombre) => {
+    setIsLoading(true);
+    const url = urlBase + 'upload_qr.php';
+    const formData = new FormData();
+    formData.append('imagen', qr);
+    formData.append('nombre', nombre)
   
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (response.ok) {
+        const data = await response.text();
+        console.log(data);
+        // Realiza alguna acción con la respuesta del servidor (por ejemplo, guardar la URL de la imagen)
+        setIsLoading(false);
+      } else {
+        throw new Error('Error en la solicitud');
+      }
+    } catch (error) {
+      console.error('Error al realizar la solicitud: ', error);
+      setError('Error en la solicitud');
+      setIsLoading(false);
+    }
+  };
+  
+  const agregarImagen = async (imagen, nombre) => {
+    setIsLoading(true);
+    const url = urlBase + 'upload_image.php';
+    const formData = new FormData();
+    formData.append('imagen', imagen);
+    formData.append('nombre', nombre)
+  
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (response.ok) {
+        const data = await response.text();
+        console.log(data);
+        // Realiza alguna acción con la respuesta del servidor (por ejemplo, guardar la URL de la imagen)
+        setIsLoading(false);
+      } else {
+        throw new Error('Error en la solicitud');
+      }
+    } catch (error) {
+      console.error('Error al realizar la solicitud: ', error);
+      setError('Error en la solicitud');
+      setIsLoading(false);
+    }
+  };
+
 
   return { isAuthenticated, isLoading, error, almuerzosAgendados, almuerzos, todasGuarniciones, todasEnsaladas, todasSalsas, reservas,
     login, obtenerAlmuerzos, getTodasGuarniciones, getTodasEnsaladas, getTodasSalsas, updateAlmuerzo, toggleDisponible, obtenerReservas,
-    createAlmuerzo, getAlmuerzosAgendados, agendarAlmuerzo, desagendarAlmuerzo, entregarAlmuerzo };
+    createAlmuerzo, getAlmuerzosAgendados, agendarAlmuerzo, desagendarAlmuerzo, entregarAlmuerzo, agregarAcompanhamiento, agregarQr, agregarImagen };
 };

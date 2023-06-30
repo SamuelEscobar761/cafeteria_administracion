@@ -11,13 +11,21 @@ export const AlmuerzoNuevoPage = () => {
   const [numGuarniciones, setNumGuarniciones] = useState('');
   const [numSalsas, setNumSalsas] = useState('');
   const [imagenFile, setImagenFile] = useState<File | null>(null);
+  const [qr, setQr] = useState<File | null>(null);
 
-  const { createAlmuerzo } = useMysql();
+  const { createAlmuerzo, agregarQr, agregarImagen } = useMysql();
   const navigate = useNavigate();
 
   const handleCrearAlmuerzo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // Logica para subir la imagen del QR
+    agregarQr(qr, precio);
+    
+    // Logica para subir la imagen del almuerzo
+    agregarImagen(imagenFile, nombre);
+
     // Lógica para crear el nuevo almuerzo
+
     const nuevoAlmuerzo = {
         nombre,
         paraLlevar,
@@ -120,8 +128,8 @@ export const AlmuerzoNuevoPage = () => {
                 id="qr"
                 accept=".jpg,.png,.jpeg"
                 onChange={(e) => {
-                    const file = e.target.files?.[1];
-                    setImagenFile(file);
+                    const file = e.target.files?.[0];
+                    setQr(file);
                 }}
                 className="border border-gray-300 rounded-md px-3 py-2 w-full"
             />
